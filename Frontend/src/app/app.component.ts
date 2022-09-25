@@ -1,24 +1,33 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
   public forecasts?: WeatherForecast[];
 
-  constructor(http: HttpClient) {
+  protected readonly title = 'Wishlist';
+
+  public constructor(http: HttpClient, cdr: ChangeDetectorRef) {
     http.get<WeatherForecast[]>('/weatherforecast').subscribe(
       result => {
         this.forecasts = result;
+        cdr.detectChanges();
       },
-      error => console.error(error),
+      error => {
+        console.error(error);
+      },
     );
   }
 
-  title = 'Wishlist';
+  protected getForecastDate(_index: number, forecast: WeatherForecast): string {
+    return forecast.date;
+  }
 }
 
 interface WeatherForecast {
