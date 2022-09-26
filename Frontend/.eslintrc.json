@@ -84,7 +84,26 @@
           "error",
           "consecutive"
         ],
-        "sort-vars": "off"
+        "sort-vars": "off",
+        "@typescript-eslint/unbound-method": [
+          "error",
+          {
+            "ignoreStatic": true
+          }
+        ],
+        "@typescript-eslint/parameter-properties": [
+          "error",
+          {
+            "prefer": "parameter-property"
+          }
+        ],
+        "no-useless-constructor": "off",
+        "no-empty-function": [
+          "error",
+          {
+            "allow": ["constructors"]
+          }
+        ]
       },
       "settings": {
         "import/resolver": {

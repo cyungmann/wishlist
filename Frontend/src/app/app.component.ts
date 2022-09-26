@@ -3,8 +3,8 @@ import {
   ChangeDetectorRef,
   Component,
 } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 interface WeatherForecast {
   date: string;
@@ -24,14 +24,12 @@ export class AppComponent {
 
   public readonly title = 'Wishlist';
 
-  protected readonly links = [
-    { title: 'Register', fragment: 'register' }
-  ];
+  protected readonly links = [{ fragment: 'register', title: 'Register' }];
 
   public constructor(
     http: HttpClient,
     cdr: ChangeDetectorRef,
-    readonly route: ActivatedRoute
+    protected readonly route: ActivatedRoute,
   ) {
     http.get<WeatherForecast[]>('/api/weatherforecast').subscribe(
       result => {
