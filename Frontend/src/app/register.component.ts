@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { isIdentityResult } from './identity-result';
+import { IdentityError } from './identity-error';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,6 +19,7 @@ export class RegisterComponent {
   public constructor(
     private readonly fb: FormBuilder,
     private readonly http: HttpClient,
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   protected get email(): FormControl<string> {
@@ -31,7 +34,25 @@ export class RegisterComponent {
     return this.registerForm.get('verifyPassword') as FormControl<string>;
   }
 
+  protected errors: IdentityError[] = [];
+
   protected onSubmit(): void {
-    this.http.post('/api/account', this.registerForm.value).subscribe();
+    if (this.password.value !== this.verifyPassword.value) {
+      this.errors = [{ code: 'PasswordMismatch', description: 'Password inputs must match.' }];
+      this.cdr.detectChanges();
+      return;
+    }
+
+    this.http.post('/api/account/register', this.registerForm.value).subscribe({
+      next: () => {
+
+      },
+      error: (err: HttpErrorResponse) => {
+        if (isIdentityResult(err.error)) {
+          this.errors = Array.from(err.error.errors);
+          this.cdr.detectChanges();
+        }
+      }
+    });
   }
 }

@@ -35,6 +35,11 @@ internal static class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+
+        services.AddFluentEmail("yungmann.chris@gmail.com", "Wishlist")
+            .AddSendGridSender(configuration["SendGridApiKey"]);
+
+        services.AddTransient<IEmailSender, EmailSender>();
     }
 
     private static void Configure(WebApplication app)
@@ -49,8 +54,6 @@ internal static class Program
         app.UseHttpsRedirection();
 
         app.UseAuthentication();
-
-        app.UsePathBase(new PathString("/api"));
 
         app.UseRouting();
 

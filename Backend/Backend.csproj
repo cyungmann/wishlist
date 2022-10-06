@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <PackageLicenseExpression>0BSD</PackageLicenseExpression>
     <EnforceCodeStyleInBuild>False</EnforceCodeStyleInBuild>
+    <UserSecretsId>c0ef0d1e-a887-4349-a318-e1433191be51</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -17,6 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentEmail.SendGrid" Version="3.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.0-rc.1.22427.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.0-rc.1.22427.2" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.0-rc.1.22427.2" />
